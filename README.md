@@ -21,6 +21,12 @@ Parent Lambda:
 Child Lambda:
 1) to get task from parent 
 2) to connect Database and load data using Procedures (predefined by ECS task)
-3) to check remaining files 
-4) to run procedures for reporting
+  a) to create temp table in MySQL
+  b) to load data from data file to temp table
+  c) to check if all data can be loaded to temp table
+  d) if yes, to load data from temp table to permanent table in MySQL 
+3) to check if data files are report related
+4) if yes, to generate reports 
 5) to return loading status and errors (if any) to parent lambda
+
+
