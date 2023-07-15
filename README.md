@@ -3,9 +3,11 @@ Python in Lambda, ECS Container
 The python scripts for ECS containers will be shared in the repo of 'DockerImage-Project-Website'.
 This repo contains Python scripts for :
 1) Lambda function that initiates Cache Invalidation for CloudFront (AWS Content Delivery Network).
-2) Lambda function that serve as parent function in Data ETL and Data Analysis.
-3) Lambda function that serve as child function in Data ETL and Data Analysis.
+2) Lambda function that serve as parent function in Data ETL and Data Analysis in MySQL.
+3) Lambda function that serve as child function in Data ETL and Data Analysis in MySQL.
+4) Lambda function that serve as loading function in Data ETL and Dynamodb Table Creation
 
+=====> For AWS RDS (MySQL):
 Once files are uploaded into S3 bucket, SQS will get the S3 notification and trigger lambda to consume the message and process the files.
 For Data ETL and Analysis, Parent Lambda checks the files in S3 and invokes Child Lambda or ECS Container according to data quantity.
 After getting response from Child Lambda or ECS, Parent Lambda will decide to proceed to the next step or not. If yes, data file in S3 will be moved to another S3 bucket for backup.
@@ -29,4 +31,13 @@ Child Lambda:
 4) if yes, to generate reports 
 5) to return loading status and errors (if any) to parent lambda
 
-
+=====> For Dynamodb Table:
+Loading Lambda:
+1) to validate s3 event, s3 key
+2) to check the file and split the file if it exceeds the limit
+3) to convert the file and add new attribute as PK 
+4) to delete the dynamodb table if exists
+5) to use 'import_table' feature to load data from s3 to dynamodb
+6) to check loading status 
+7) to backup the data file in another s3 bucket 
+8) return failure message to SQS if any
