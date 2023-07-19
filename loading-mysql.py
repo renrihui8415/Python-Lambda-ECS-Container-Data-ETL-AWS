@@ -13,22 +13,40 @@ Using Lambda can achieve a full automation.
 In this project, although I wish lambda to be free of VPC, but RDS (MySQL) cannot provided a DATA API
 , therefore, lambda can't access it from outside. If we really need leading lambda :
 ## To set up a parent lambda outside of VPC, and connect and lead the child lambda within MySQL's VPC. 
+
+Parent Lambda:
+1) to validate s3 event, s3 key 
+2) to check the file and split the file if it exceeds the limit
+3) to decide to invoke ECS container for Database Init or to invoke child lambda for Data ETL/Analysis
+4) ----waiting for child response -------
+5) to backup the data file in another s3 bucket 
+6) to invoke loading lambda for report data creation
+7) ----waiting for child response -------
+8) to invoke reporting lambda for data export
+9) ----waiting for child response -------
+10) to send email and notify person in charge that the Data processing is successful or not
+11) return failure message to SQS if any
+
+Loading Lambda:
+1) to get task from parent 
+2) to connect Database and load data using Procedures (predefined by ECS task)
+  a) to create temp table in MySQL
+  b) to load data from data file to temp table
+  c) to check if all data can be loaded to temp table
+  d) if yes, to load data from temp table to permanent table in MySQL 
+3) to respond to leader lambda for data ETL
+4) to get task from parent for report data
+5) to execute stored procedures in MySQL for report data creation
+6) to respond to leader lambda for report data
+
+
+Reporting Lambda:
+1) to get task from parent
+2) to export data from MySQL to s3 using MySQL command line
+3) to save the report data in the .csv file
+4) to respond to leader lambda for report data
 '''
-#======================================
-#below are scripts for leader lambda(parent):
-#1 to validate s3 event, s3 key 
-#2 to check the file and split the file if it exceeds the limit
-#3 to decide to invoke ECS container for Database Init or to invoke child lambda for Data ETL/Analysis
-#4 ----waiting for child response -------
-#5 to backup the data file in another s3 bucket 
-#6 return failure message to SQS only
-#======================================
-#below are scripts for loading lambda (Child):
-#1 to get task from parent 
-#2 to connect Database and load data using Procedures (predefined by ECS task)
-#3 to check remaining files 
-#4 to run procedures for reporting
-#5 to return loading status and errors (if any) to parent lambda
+
 
 
 from __future__ import print_function

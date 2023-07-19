@@ -16,13 +16,13 @@
 # there are more than one method to load large dataset into dynamodb
 # 'import table feature' allows data in s3 to be loaded into a new dynamodb table
 #5 to back up files in s3 if loading completes
-#6 to invoke report lambda 
+#6 to invoke reporting lambda 
 #======================================
 #below are scripts for reporting lambda (Child):
 #1 to get task from parent 
 #2 to export data from dynamodb to s3
 ##### no analytic query is allowed in dynamodb
-##### we have no way but to export raw data to s3
+##### we need to export raw data to s3
 ##### and use GLUE and Athena for ETL and reports
 ##### this is not an ideal reporting process for my project
 ##### this file is just for reference
