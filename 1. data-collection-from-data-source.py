@@ -19,9 +19,9 @@ import subprocess
 URL="https://www150.statcan.gc.ca/n1/dai-quo/ssi/homepage/ind-all.json"
 # get the data file URL
 # Canada Statistics provides the URL for data files
-s3_bucket="backup-juliaren"
+s3_bucket="here is the name of bucket"
 # get the name for upload s3 bucket 
-data_folder_path='data'
+data_folder_path='here is the folder name '
 
 response = requests.get(URL, allow_redirects=True)
 
