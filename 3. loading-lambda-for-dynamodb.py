@@ -325,7 +325,6 @@ def lambda_handler(event, context):
             return batch_failure_response
 #==========================================================================
 #==========================================================================
-#loading_status=import_table_dynamodb(converted_s3_bucket,converted_path_name,s3_key_extension,file_delimiter,dynamodb_table,row_number)
 def import_table_dynamodb(s3_bucket,path_name,s3_key_extension,file_delimiter,tablename,dynamodb_table,row_number):   
    
     response = dynamodb_client.import_table(
@@ -471,7 +470,6 @@ def split_file(source_bucket_name, source_s3_key,file_delimiter,file_size_in_mib
         "small_files_folder":small_files_folder
     }
 #==========================================================================
-#respon=finding_folder(the_hard_code_bucket,the_hard_code_folder,today)
 def finding_folder(bucket_name,folder_name,subfolder_name):
     folder_combination='{}/{}/'.format(folder_name,subfolder_name)
     folder_found=0
@@ -523,7 +521,7 @@ def get_tablename(target_name,stamp=today):
         #always be aware of lower cases
         #make names to be in lower cases as soon as possible
         #s3_key_withoutextension already be lower case
-        #means the tables schema of webvoir
+
         table_name='priceindex_{}'.format(stamp)
         existing_tables=dynamodb_client.list_tables()['TableNames']
         #print(existing_tables)
